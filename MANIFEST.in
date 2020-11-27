@@ -1,0 +1,4 @@
+graft compal_wifi_switch
+
+include README.md
+include LICENSE.txt

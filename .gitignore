@@ -1,0 +1,6 @@
+*.iml
+.idea
+venv
+dist
+build
+compal_wifi_switch.egg-info
