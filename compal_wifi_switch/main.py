@@ -21,16 +21,20 @@ def wifi_power(host: str, passwd: str, switch: Switch, band: Band):
     if band == Band.BAND_5G or band == Band.ALL:
         settings.radio_5g.bss_enable = 1 if switch == Switch.ON else 2
 
-    band_mode_mask = {
-        Band.BAND_2G: 1,
-        Band.BAND_5G: 2,
-        Band.ALL: 3
-    }
-
     if switch == Switch.ON:
-        settings.band_mode = (settings.band_mode & 3) | band_mode_mask.get(band, None)
+        band_mode_mask_on = {
+            Band.BAND_2G: 1,
+            Band.BAND_5G: 2,
+            Band.ALL: 3
+        }
+        settings.band_mode = (settings.band_mode & 3) | band_mode_mask_on.get(band, None)
     else:
-        new_mode = settings.band_mode ^ band_mode_mask.get(band, None)
+        band_mode_mask_off = {
+            Band.BAND_2G: 2,
+            Band.BAND_5G: 1,
+            Band.ALL: 0
+        }
+        new_mode = settings.band_mode & band_mode_mask_off.get(band, None)
         settings.band_mode = new_mode if new_mode != 0 else 4
 
     wifi.update_wifi_settings(settings)
