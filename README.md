@@ -14,8 +14,22 @@ where Python runtime is available (NAS, Raspberry Pi, etc.). To schedule compal-
 scheduling mechanism.  
 
 ## Installation
+### Using pip
 1. Install python3.7 or higher
-1. Install compal-wifi-switch via ```pip install compal-wifi-switch```.
+1. Install compal-wifi-switch with ```pip install compal-wifi-switch```.
+1. Run compal-wifi-switch with ```compal-wifi-switch --help```.
+### Without pip (e.g. on Synology DSM)
+1. Download package from [PyPi](https://pypi.org/project/compal-wifi-switch/#files) (tar.gz) to your server.
+1. Run the following commands:
+```
+# Install
+user@dsm:~> tar xfv compal-wifi-switch-<version>.tar.gz
+user@dsm:~> cd compal-wifi-switch-<version>
+user@dsm:~/compal-wifi-switch> python3 setup.py install --user
+
+# Run
+user@dsm:~> python3 ~/compal-wifi-switch-<version>/compal_wifi_switch/main.py --help
+```
 
 ## Usage
 ```
