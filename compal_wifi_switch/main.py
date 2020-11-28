@@ -33,7 +33,7 @@ def wifi_power(host: str, passwd: str, switch: Switch, band: Band):
         new_mode = settings.band_mode ^ band_mode_mask.get(band, None)
         settings.band_mode = new_mode if new_mode != 0 else 4
 
-    # wifi.update_wifi_settings(settings)
+    wifi.update_wifi_settings(settings)
     modem.logout()
 
 
