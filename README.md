@@ -33,8 +33,9 @@ user@dsm:~> python3 ~/compal-wifi-switch-<version>/compal_wifi_switch/main.py --
 
 ## Usage
 ```
-usage: compal-wifi-switch [-h] --host HOST --password PASSWORD --switch
-                          {on,off} [--band {2g,5g,all}] [--version]
+usage: main.py [-h] --host HOST --password PASSWORD --switch {on,off}
+               [--band {2g,5g,all}] [--guest [GUEST ...]] [--version]
+               [--verbose]
 
 Compal-Wifi-Switch configuration
 
@@ -48,7 +49,11 @@ optional arguments:
                         wifi power state to set
   --band {2g,5g,all}, -b {2g,5g,all}
                         band to switch power state for (default = all)
+  --guest [GUEST ...], -g [GUEST ...]
+                        list of guest network mac-addresses to activate while
+                        switching ON wifi
   --version, -v         show program's version number and exit
+  --verbose             verbose logging
 ```
 
 ## Credits
