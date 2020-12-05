@@ -3,21 +3,26 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/compal-wifi-switch.svg)](https://pypi.org/project/compal-wifi-switch/)
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-A command line tool to switch on/off the wifi sender of a Compal CH7465LG cablemodem.
+A command line tool to switch on/off the wifi signal of a Compal-CH7465LG cablemodem.
+
+![Turn wifi signal off when not in use!](images/wifi-off.png)
+![Compal-CH7465LG cablemodem front with UPC design](images/compal_modem-front-upc-design.png)
+![Compal-CH7465LG cablemodem back](images/compal_modem_back.png)
 
 Wifi radiation should be turned off if not used (better for your health and for IT security reasons). 
-Unfortunattly the Compal CH7465LG cablemodem does not offer a physical button to switch on/off the wifi module.
-There is also no configuration possible to switch the wifi module on/off based on a time schedule (e.g. switch off during night).
+Unfortunattly the Compal-CH7465LG cablemodem does not offer a physical button to switch on/off the wifi signal.
+There is also no configuration available to switch the wifi signal on/off based on a time schedule.
 
-The compal-wifi-switch tool can switch wifi on/off via a command line interface. The tool can be installed on a server 
-where Python runtime is available (NAS, Raspberry Pi, etc.). To schedule compal-wifi-switch you can use cron or any other 
-scheduling mechanism.  
+The compal-wifi-switch tool can switch the wifi signal on/off via a command line interface. 
+The tool can be installed on any device where Python3 runtime is available (NAS, Raspberry Pi, etc.). 
+To schedule compal-wifi-switch you can use any scheduling mechanism (e.g. cron, Synology task scheduler, ...).  
 
 ## Installation
 ### Using pip
 1. Install python3.7 or higher
 1. Install compal-wifi-switch with ```pip install compal-wifi-switch```.
 1. Run compal-wifi-switch with ```compal-wifi-switch --help```.
+
 ### Without pip (e.g. on Synology DSM)
 1. Download package from [PyPi](https://pypi.org/project/compal-wifi-switch/#files) (tar.gz) to your server.
 1. Run the following commands:
@@ -74,7 +79,7 @@ optional arguments:
   --verbose             verbose logging
 ```
 #### Example
-To enable the 2g wifi band including the guest network use the following command:
+To enable the wifi signal for the 2GHz band including the activation of the guest network, use the following command:
 ```
 > compal-wifi-switch switch on --host 192.168.0.1 --password <YOUR_PW> --band 2g --guest 92:5C:34:DD:6F:0A
 
@@ -100,9 +105,9 @@ optional arguments:
 ```
 
 #### Example
-To show the status use the following command:
+To show the status of the wifi signal, use the following command:
 ```
-> compal-wifi-switch status --host 192.168.1.1 --password <YOUR_PW>
+> compal-wifi-switch status --host 192.168.0.1 --password <YOUR_PW>
 
 ====================================================
  WIFI BANDS
