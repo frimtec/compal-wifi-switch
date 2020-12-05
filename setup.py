@@ -12,7 +12,7 @@ with open(os.path.join(here, "README.md"), "rb") as f:
 
 setup(
     name="compal-wifi-switch",
-    version="1.0.0",
+    version="1.0.1",
     author="Markus Friedli",
     author_email="frimtec@gmx.ch",
     description="CLI tool to switch on/off the wifi module of a Compal cabelmodem (CH7465LG/Ziggo Connect Box)",
