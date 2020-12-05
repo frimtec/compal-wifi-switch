@@ -165,6 +165,7 @@ def main():
     switch_parser.add_argument('--guest', '-g',
                                type=str,
                                nargs='*',
+                               default=[],
                                help="list of guest network mac-addresses to activate while switching ON wifi")
     add_modem_arguments(switch_parser)
     switch_parser.set_defaults(func=switch)
