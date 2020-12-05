@@ -136,12 +136,10 @@ def add_modem_arguments(parser):
     parser.add_argument('--host',
                         type=str,
                         default=os.environ.get("COMPAL_WIFI_SWITCH_HOST", None),
-                        required=True,
                         help="host name or IP of compal cablemodem, or use env variable COMPAL_WIFI_SWITCH_HOST")
     parser.add_argument('--password',
                         type=str,
                         default=os.environ.get("COMPAL_WIFI_SWITCH_PASSWORD", None),
-                        required=True,
                         help="password of compal cablemodem, or use env variable COMPAL_WIFI_SWITCH_PASSWORD")
     parser.add_argument('--verbose', action='store_true', help="verbose logging")
 
@@ -172,6 +170,11 @@ def main():
     switch_parser.set_defaults(func=switch)
 
     args = parser.parse_args()
+
+    if args.host is None or args.password is None:
+        print("ERROR: Missing value for HOST or PASSWORD arguments!")
+        exit(1)
+
     args.func(args)
 
 
