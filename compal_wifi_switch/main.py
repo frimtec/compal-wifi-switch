@@ -1,10 +1,13 @@
 import argparse
 import os
+import time
 
 import pkg_resources
 from compal import (Compal, WifiSettings, WifiGuestNetworkSettings)
 
 from compal_wifi_switch import (Switch, Band)
+
+WAIT_TILL_ACTIVE = 45
 
 
 def guest_settings_for_band(guest_settings, band):
@@ -119,15 +122,23 @@ def switch(args):
 
     wifi.update_wifi_settings(settings, args.verbose)
 
-    indexes_to_enable = set()
-    for index, guest_band in guest_network_interfaces_to_enable:
-        interface = guest_settings_for_band(guest_settings, guest_band)[index]
-        print(f"Activating guest networks {interface.guest_mac}")
-        interface.enable = 1
-        indexes_to_enable.add(index)
+    if enable_guest_networks:
+        modem.logout()
+        print(f"Wait {WAIT_TILL_ACTIVE}s till wifi is active ...")
+        time.sleep(WAIT_TILL_ACTIVE)
+        modem.login()
+        wifi_guest_network = WifiGuestNetworkSettings(modem)
+        guest_settings = wifi_guest_network.wifi_guest_network_settings
 
-    for index in indexes_to_enable:
-        wifi_guest_network.update_interface_guest_network_settings(guest_settings, index, args.verbose)
+        indexes_to_enable = set()
+        for index, guest_band in guest_network_interfaces_to_enable:
+            interface = guest_settings_for_band(guest_settings, guest_band)[index]
+            print(f"Activating guest networks {interface.guest_mac}")
+            interface.enable = 1
+            indexes_to_enable.add(index)
+
+        for index in indexes_to_enable:
+            wifi_guest_network.update_interface_guest_network_settings(guest_settings, index, args.verbose)
 
     modem.logout()
 
