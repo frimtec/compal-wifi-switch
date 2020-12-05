@@ -32,28 +32,94 @@ user@dsm:~> python3 ~/compal-wifi-switch-<version>/compal_wifi_switch/main.py --
 ```
 
 ## Usage
+
+### General syntax
 ```
-usage: main.py [-h] --host HOST --password PASSWORD --switch {on,off}
-               [--band {2g,5g,all}] [--guest [GUEST ...]] [--version]
-               [--verbose]
+usage: compal-wifi-switch [-h] [--version] {status,switch} ...
 
 Compal-Wifi-Switch configuration
 
 optional arguments:
+  -h, --help       show this help message and exit
+  --version, -v    show program's version number and exit
+
+command:
+  {status,switch}
+    status         shows the current status of the cablemodem
+    switch         switches the wifi state of the cabelmodem    
+```
+
+### Command switch
+#### Usage
+```
+usage: compal-wifi-switch switch [-h] [--band {2g,5g,all}] [--guest [GUEST ...]] --host
+                      HOST --password PASSWORD [--verbose]
+                      {on,off}
+
+positional arguments:
+  switch
+  {on,off}
+
+optional arguments:
   -h, --help            show this help message and exit
-  --host HOST           host name or IP of compal cablemodem, or use env
-                        variable COMPAL_WIFI_SWITCH_HOST
-  --password PASSWORD   password of compal cablemodem, or use env variable
-                        COMPAL_WIFI_SWITCH_PASSWORD
-  --switch {on,off}, -s {on,off}
-                        wifi power state to set
   --band {2g,5g,all}, -b {2g,5g,all}
                         band to switch power state for (default = all)
   --guest [GUEST ...], -g [GUEST ...]
                         list of guest network mac-addresses to activate while
                         switching ON wifi
-  --version, -v         show program's version number and exit
+  --host HOST           host name or IP of compal cablemodem, or use env
+                        variable COMPAL_WIFI_SWITCH_HOST
+  --password PASSWORD   password of compal cablemodem, or use env variable
+                        COMPAL_WIFI_SWITCH_PASSWORD
   --verbose             verbose logging
+```
+#### Example
+To enable the 2g wifi band including the guest network use the following command:
+```
+> compal-wifi-switch switch on --host 192.168.0.1 --password <YOUR_PW> --band 2g --guest 92:5C:34:DD:6F:0A
+
+Switching wifi ON (band = 2g)
+Activating guest networks 92:5C:34:DD:6F:0A
+```
+
+### Command status
+#### Usage
+```
+usage: compal-wifi-switch status [-h] --host HOST --password PASSWORD [--verbose]
+
+positional arguments:
+  status
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --host HOST          host name or IP of compal cablemodem, or use env
+                       variable COMPAL_WIFI_SWITCH_HOST
+  --password PASSWORD  password of compal cablemodem, or use env variable
+                       COMPAL_WIFI_SWITCH_PASSWORD
+  --verbose            verbose logging
+```
+
+#### Example
+To show the status use the following command:
+```
+> compal-wifi-switch status --host 192.168.1.1 --password <YOUR_PW>
+
+====================================================
+ WIFI BANDS
+====================================================
+ State Band Hidden SSID
+ ----- ---- ------ ----------------
+ ON    2g   OFF    FRIMTEC
+ OFF   5g   OFF    FRIMTEC
+
+====================================================
+ WIFI GUEST NETWORKS
+====================================================
+ State Band MAC               Hidden SSID
+ ----- ---- ----------------- ------ ----------------
+ ON    2g   92:5C:34:DD:6F:0A OFF    FRIMTEC-GUEST
+ OFF   5g   92:5C:44:DD:6D:CA OFF    FRIMTEC-GUEST
+
 ```
 
 ## Credits
