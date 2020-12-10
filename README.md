@@ -1,4 +1,5 @@
 # Compal-Wifi-Switch
+![Build](https://github.com/frimtec/compal-wifi-switch/workflows/Python%20application/badge.svg)
 [![PyPI](https://img.shields.io/pypi/v/compal-wifi-switch.svg)](https://pypi.org/project/compal-wifi-switch/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/compal-wifi-switch.svg)](https://pypi.org/project/compal-wifi-switch/)
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
