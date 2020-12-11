@@ -1,8 +1,10 @@
 # Compal-Wifi-Switch
-![Build](https://github.com/frimtec/compal-wifi-switch/workflows/Python%20application/badge.svg)
 [![PyPI](https://img.shields.io/pypi/v/compal-wifi-switch.svg)](https://pypi.org/project/compal-wifi-switch/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/compal-wifi-switch.svg)](https://pypi.org/project/compal-wifi-switch/)
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+[![Build](https://github.com/frimtec/compal-wifi-switch/workflows/Build/badge.svg)](https://github.com/frimtec/compal-wifi-switch/actions?query=workflow%3ABuild)
+[![Deploy release](https://github.com/frimtec/compal-wifi-switch/workflows/Deploy%20release/badge.svg)](https://github.com/frimtec/compal-wifi-switch/actions?query=workflow%3A%22Deploy+release)
 
 A command line tool to switch on/off the wifi signal of a Compal-CH7465LG cablemodem.
 
