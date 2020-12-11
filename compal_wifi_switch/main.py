@@ -7,8 +7,6 @@ from compal import (Compal, WifiSettings, WifiGuestNetworkSettings)
 
 from compal_wifi_switch import (Switch, Band)
 
-WAIT_TILL_ACTIVE = 45
-
 
 def guest_settings_for_band(guest_settings, band):
     if band == Band.BAND_2G:
@@ -122,10 +120,11 @@ def switch(args):
 
     wifi.update_wifi_settings(settings, args.verbose)
 
+    modem.logout()
+    print(f"Wait {args.pause}s till wifi state is changed ...")
+    time.sleep(args.pause)
+
     if enable_guest_networks:
-        modem.logout()
-        print(f"Wait {WAIT_TILL_ACTIVE}s till wifi is active ...")
-        time.sleep(WAIT_TILL_ACTIVE)
         modem.login()
         wifi_guest_network = WifiGuestNetworkSettings(modem)
         guest_settings = wifi_guest_network.wifi_guest_network_settings
@@ -140,7 +139,9 @@ def switch(args):
         for index in indexes_to_enable:
             wifi_guest_network.update_interface_guest_network_settings(guest_settings, index, args.verbose)
 
-    modem.logout()
+        modem.logout()
+
+    print("Finished.")
 
 
 def add_modem_arguments(parser):
@@ -178,6 +179,11 @@ def main():
                                nargs='*',
                                default=[],
                                help="list of guest network mac-addresses to activate while switching ON wifi")
+    switch_parser.add_argument('--pause', '-p',
+                               type=int,
+                               default=45,
+                               help="number of seconds to pause after wifi state change (default = 45); "
+                                    "when the pause is too short, the following modem commands may block forever")
     add_modem_arguments(switch_parser)
     switch_parser.set_defaults(func=switch)
 

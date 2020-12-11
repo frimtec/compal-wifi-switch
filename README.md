@@ -60,8 +60,9 @@ command:
 ### Command switch
 #### Usage
 ```
-usage: compal-wifi-switch switch [-h] [--band {2g,5g,all}] [--guest [GUEST ...]] --host
-                      HOST --password PASSWORD [--verbose]
+usage: compal-wifi-switch switch [-h] [--band {2g,5g,all}] [--guest [GUEST ...]]
+                      [--pause PAUSE] [--host HOST] [--password PASSWORD]
+                      [--verbose]
                       {on,off}
 
 positional arguments:
@@ -75,6 +76,10 @@ optional arguments:
   --guest [GUEST ...], -g [GUEST ...]
                         list of guest network mac-addresses to activate while
                         switching ON wifi
+  --pause PAUSE, -p PAUSE
+                        number of seconds to pause after wifi state change
+                        (default = 45); when the pause is too short, the
+                        following modem commands may block forever
   --host HOST           host name or IP of compal cablemodem, or use env
                         variable COMPAL_WIFI_SWITCH_HOST
   --password PASSWORD   password of compal cablemodem, or use env variable
