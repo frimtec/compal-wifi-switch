@@ -9,10 +9,10 @@ here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, "README.md"), "rb") as f:
     long_descr = f.read().decode("utf-8")
 
-
+version = '0.0.0' if '$version'.startswith('$') else '$version'
 setup(
     name="compal-wifi-switch",
-    version="1.0.3",
+    version=version,
     author="Markus Friedli",
     author_email="frimtec@gmx.ch",
     description="CLI tool to switch on/off the wifi module of a Compal cabelmodem (CH7465LG/Ziggo Connect Box)",
