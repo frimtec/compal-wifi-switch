@@ -120,14 +120,14 @@ To show the status of the wifi signal, use the following command:
 ==============================================================
  Modem
 ==============================================================
-Model               : CH7465LG
-HW Version          : 5.01
-SW Version          : CH7465LG-NCIP-6.12.18.26-3p4-GA-NOSH
-Serial Number       : ************
-Modem MAC Address   : **:**:**:**:**:**
-Operator ID         : LIBERTYGLOBAL
-Network Mode        : IPv4
-Uptime              : 50day(s)0h:12m:28s
+ Model               : CH7465LG
+ HW Version          : 5.01
+ SW Version          : CH7465LG-NCIP-6.12.18.26-3p4-GA-NOSH
+ Serial Number       : ************
+ Modem MAC Address   : **:**:**:**:**:**
+ Operator ID         : LIBERTYGLOBAL
+ Network Mode        : IPv4
+ Uptime              : 50day(s)0h:12m:28s
 
 ==============================================================
  WIFI BANDS
