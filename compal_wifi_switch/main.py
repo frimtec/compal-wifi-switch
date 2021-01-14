@@ -1,9 +1,11 @@
 import argparse
 import os
+from lxml import etree
+
 import time
 
 import pkg_resources
-from compal import (Compal, WifiSettings, WifiGuestNetworkSettings)
+from compal import (Compal, WifiSettings, WifiGuestNetworkSettings, GetFunction)
 
 from compal_wifi_switch import (Switch, Band)
 
@@ -35,11 +37,29 @@ def find_guest_network(guest_settings, band_selection, mac):
 def status(args):
     modem = Compal(args.host, args.password)
     modem.login()
+
+    parser = etree.XMLParser(recover=True)
+    global_settings = etree.fromstring(modem.xml_getter(GetFunction.GLOBALSETTINGS, {}).content, parser=parser)
+    system_info = etree.fromstring(modem.xml_getter(GetFunction.CM_SYSTEM_INFO, {}).content, parser=parser)
+
+    print("==============================================================")
+    print(" Modem")
+    print("==============================================================")
+    print(f"{('Model'):20}: {global_settings.find('ConfigVenderModel').text}")
+    print(f"{('HW Version'):20}: {system_info.find('cm_hardware_version').text}")
+    print(f"{('SW Version'):20}: {global_settings.find('SwVersion').text}")
+    print(f"{('Serial Number'):20}: {system_info.find('cm_serial_number').text}")
+    print(f"{('Modem MAC Address'):20}: {system_info.find('cm_mac_addr').text}")
+    print(f"{('Operator ID'):20}: {global_settings.find('OperatorId').text}")
+    print(f"{('Network Mode'):20}: {global_settings.find('GwProvisionMode').text}")
+    print(f"{('Uptime'):20}: {system_info.find('cm_system_uptime').text}")
+    print()
+
     wifi_settings = WifiSettings(modem).wifi_settings
     wifi_band_settings = [wifi_settings.radio_2g, wifi_settings.radio_5g]
-    print("====================================================")
+    print("==============================================================")
     print(" WIFI BANDS")
-    print("====================================================")
+    print("==============================================================")
     print(" State Band Hidden SSID")
     print(" ----- ---- ------ ----------------")
     for wifi_band in wifi_band_settings:
@@ -51,9 +71,9 @@ def status(args):
     guest_network_interfaces = []
     guest_network_interfaces += wifi_guest_network_settings.guest_networks_2g
     guest_network_interfaces += wifi_guest_network_settings.guest_networks_5g
-    print("====================================================")
+    print("==============================================================")
     print(" WIFI GUEST NETWORKS")
-    print("====================================================")
+    print("==============================================================")
     print(" State Band MAC               Hidden SSID")
     print(" ----- ---- ----------------- ------ ----------------")
     for interface in guest_network_interfaces:
