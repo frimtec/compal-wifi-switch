@@ -3,9 +3,7 @@ import os
 
 import pkg_resources
 
-from compal_wifi_switch import (Switch, Band)
-
-from .commands import Commands
+from compal_wifi_switch import (Switch, Band, Commands)
 
 
 def status(args):
