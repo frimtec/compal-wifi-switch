@@ -1,6 +1,5 @@
 import argparse
 import os
-import asyncio
 import json
 
 import pkg_resources
@@ -8,8 +7,8 @@ import pkg_resources
 from compal_wifi_switch import (Switch, Band, Commands, Format)
 
 
-async def status(args):
-    status_object = await Commands.status(args.host, args.password)
+def status(args):
+    status_object = Commands.status(args.host, args.password)
     if args.format == Format.JSON:
         print(json.dumps(status_object, indent=2))
     else:
@@ -45,8 +44,8 @@ async def status(args):
                       f"{interface['mac']} {('ON' if interface['hidden'] else 'OFF'):6} {interface['ssid']}")
 
 
-async def switch(args):
-    await Commands.switch(args.host, args.password, args.state, args.band, args.guest, args.pause, args.verbose)
+def switch(args):
+    Commands.switch(args.host, args.password, args.state, args.band, args.guest, args.pause, args.verbose)
 
 
 def add_modem_arguments(parser):
@@ -61,7 +60,7 @@ def add_modem_arguments(parser):
     parser.add_argument('--verbose', action='store_true', help="verbose logging")
 
 
-async def main():
+def main():
     parser = argparse.ArgumentParser(description="Compal-Wifi-Switch configuration")
     parser.add_argument('--version', '-v', action='version',
                         version='%(prog)s v' + pkg_resources.get_distribution('compal_wifi_switch').version)
@@ -102,9 +101,8 @@ async def main():
     if args.host is None or args.password is None:
         raise ValueError('Missing value for HOST or PASSWORD arguments!')
 
-    await args.func(args)
+    args.func(args)
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    main()
