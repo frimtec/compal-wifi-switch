@@ -1,6 +1,6 @@
 import enum
-import time
 
+import time
 from compal import (Compal, WifiSettings, WifiGuestNetworkSettings, GetFunction)
 from lxml import etree
 
@@ -9,6 +9,14 @@ class Band(enum.Enum):
     BAND_2G = '2g'
     BAND_5G = '5g'
     ALL = 'all'
+
+    def __str__(self):
+        return self.value
+
+
+class Format(enum.Enum):
+    JSON = 'json'
+    TEXT = 'text'
 
     def __str__(self):
         return self.value
@@ -31,7 +39,6 @@ class Commands:
         else:
             return guest_settings.guest_networks_5g
 
-
     @staticmethod
     def __find_guest_network(guest_settings, band_selection, mac):
 
@@ -50,9 +57,8 @@ class Commands:
 
         return found_entry
 
-
     @staticmethod
-    def status(host, password, verbose=False):
+    async def status(host, password):
         modem = Compal(host, password)
         modem.login()
 
@@ -60,54 +66,60 @@ class Commands:
         global_settings = etree.fromstring(modem.xml_getter(GetFunction.GLOBALSETTINGS, {}).content, parser=parser)
         system_info = etree.fromstring(modem.xml_getter(GetFunction.CM_SYSTEM_INFO, {}).content, parser=parser)
 
-        print("==============================================================")
-        print(" Modem")
-        print("==============================================================")
-        print(f" {'Model' :20}: {global_settings.find('ConfigVenderModel').text}")
-        print(f" {'HW Version' :20}: {system_info.find('cm_hardware_version').text}")
-        print(f" {'SW Version' :20}: {global_settings.find('SwVersion').text}")
-        print(f" {'Serial Number' :20}: {system_info.find('cm_serial_number').text}")
-        print(f" {'Modem MAC Address' :20}: {system_info.find('cm_mac_addr').text}")
-        print(f" {'Operator ID' :20}: {global_settings.find('OperatorId').text}")
-        print(f" {'Network Mode' :20}: {global_settings.find('GwProvisionMode').text}")
-        print(f" {'Uptime' :20}: {system_info.find('cm_system_uptime').text}")
-        print()
+        modem_status = {
+            'model': global_settings.find('ConfigVenderModel').text,
+            'hw_version': system_info.find('cm_hardware_version').text,
+            'sw_version': global_settings.find('SwVersion').text,
+            'cm_serial_number': system_info.find('cm_serial_number').text,
+            'cm_mac_addr': system_info.find('cm_mac_addr').text,
+            'operator_id': global_settings.find('OperatorId').text,
+            'network_mode': global_settings.find('GwProvisionMode').text,
+            'uptime': system_info.find('cm_system_uptime').text
+        }
 
         wifi_settings = WifiSettings(modem).wifi_settings
         wifi_band_settings = [wifi_settings.radio_2g, wifi_settings.radio_5g]
-        print("==============================================================")
-        print(" WIFI BANDS")
-        print("==============================================================")
-        print(" State Band Hidden SSID")
-        print(" ----- ---- ------ ----------------")
+
+        wifi_status = []
         for wifi_band in wifi_band_settings:
-            print(f" {('ON' if wifi_band.bss_enable == 1 else 'OFF'):5} {wifi_band.radio:4} "
-                  f"{('ON' if wifi_band.hidden == 1 else 'OFF'):6} {wifi_band.ssid}")
-        print()
+            wifi_band = {
+                'radio': wifi_band.radio,
+                'enabled': wifi_band.bss_enable == 1,
+                'ssid': wifi_band.ssid,
+                'hidden': wifi_band.hidden == 1
+            }
+            wifi_status.append(wifi_band)
 
         wifi_guest_network_settings = WifiGuestNetworkSettings(modem).wifi_guest_network_settings
         guest_network_interfaces = []
         guest_network_interfaces += wifi_guest_network_settings.guest_networks_2g
         guest_network_interfaces += wifi_guest_network_settings.guest_networks_5g
-        print("==============================================================")
-        print(" WIFI GUEST NETWORKS")
-        print("==============================================================")
-        print(" State Band MAC               Hidden SSID")
-        print(" ----- ---- ----------------- ------ ----------------")
+
+        wifi_guest_status = []
         for interface in guest_network_interfaces:
-            if interface.ssid is not None or verbose:
-                print(f" {('ON' if interface.enable == 1 else 'OFF'):5} {interface.radio:4} "
-                      f"{interface.guest_mac} {('ON' if interface.hidden == 1 else 'OFF'):6} {interface.ssid}")
+            entry = {
+                'radio': interface.radio,
+                'enabled': interface.enable == 1,
+                'mac': interface.guest_mac,
+                'ssid': interface.ssid,
+                'hidden': interface.hidden == 1 == 1
+            }
+            wifi_guest_status.append(entry)
         modem.logout()
 
+        return {
+            'modem': modem_status,
+            'wifi': wifi_status,
+            'wifi_guest': wifi_guest_status
+        }
+
     @staticmethod
-    def switch(host, password, state, band, guest, pause, verbose=False):
+    async def switch(host, password, state, band, guest, pause, verbose=False):
         guest_networks = guest
         enable_guest_networks = len(guest_networks) > 0
         if enable_guest_networks:
             if state == Switch.OFF:
-                print('Argument guest (--guest, -g) not allowed for switch OFF action!')
-                exit(1)
+                raise ValueError('Argument guest (--guest, -g) not allowed for switch OFF action!')
 
         modem = Compal(host, password)
         modem.login()
@@ -125,8 +137,7 @@ class Commands:
                 guest_network_interfaces_to_enable.append(found_interface)
 
         if len(not_found_guest_networks) > 0:
-            print(f"Guest network mac-addresses {not_found_guest_networks} not found for selected band {band}!")
-            exit(1)
+            raise ValueError(f"Guest network mac-addresses {not_found_guest_networks} not found for selected band {band}!")
 
         wifi = WifiSettings(modem)
         settings = wifi.wifi_settings

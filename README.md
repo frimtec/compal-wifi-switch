@@ -98,18 +98,21 @@ Activating guest networks 92:5C:34:DD:6F:0A
 ### Command status
 #### Usage
 ```
-usage: compal-wifi-switch status [-h] --host HOST --password PASSWORD [--verbose]
+usage: main.py status [-h] [--format {json,text}] [--host HOST]
+                      [--password PASSWORD] [--verbose]
 
 positional arguments:
   status
 
 optional arguments:
-  -h, --help           show this help message and exit
-  --host HOST          host name or IP of compal cablemodem, or use env
-                       variable COMPAL_WIFI_SWITCH_HOST
-  --password PASSWORD  password of compal cablemodem, or use env variable
-                       COMPAL_WIFI_SWITCH_PASSWORD
-  --verbose            verbose logging
+  -h, --help            show this help message and exit
+  --format {json,text}, -f {json,text}
+                        output format
+  --host HOST           host name or IP of compal cablemodem, or use env
+                        variable COMPAL_WIFI_SWITCH_HOST
+  --password PASSWORD   password of compal cablemodem, or use env variable
+                        COMPAL_WIFI_SWITCH_PASSWORD
+  --verbose             verbose logging
 ```
 
 #### Example
