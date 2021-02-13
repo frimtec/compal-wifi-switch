@@ -114,10 +114,6 @@ class Commands:
         }
 
     @staticmethod
-    async def async_status(host, password):
-        return Commands.status(host, password)
-
-    @staticmethod
     def switch(host, password, state, band, guest, pause, verbose=False):
         guest_networks = guest
         enable_guest_networks = len(guest_networks) > 0
@@ -193,7 +189,3 @@ class Commands:
             modem.logout()
 
         print("Finished.")
-
-    @staticmethod
-    async def async_switch(host, password, state, band, guest, pause, verbose=False):
-        Commands.switch(host, password, state, band, guest, pause, verbose)
