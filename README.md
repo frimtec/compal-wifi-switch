@@ -78,7 +78,7 @@ optional arguments:
                         switching ON wifi
   --pause PAUSE, -p PAUSE
                         number of seconds to pause after wifi state change
-                        (default = 45); when the pause is too short, the
+                        (default = 60); when the pause is too short, the
                         following modem commands may block forever
   --host HOST           host name or IP of compal cablemodem, or use env
                         variable COMPAL_WIFI_SWITCH_HOST
