@@ -90,8 +90,8 @@ def main():
                                help="list of guest network mac-addresses to activate while switching ON wifi")
     switch_parser.add_argument('--pause', '-p',
                                type=int,
-                               default=45,
-                               help="number of seconds to pause after wifi state change (default = 45); "
+                               default=60,
+                               help="number of seconds to pause after wifi state change (default = 60); "
                                     "when the pause is too short, the following modem commands may block forever")
     add_modem_arguments(switch_parser)
     switch_parser.set_defaults(func=switch)
