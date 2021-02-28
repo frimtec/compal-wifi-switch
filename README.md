@@ -18,7 +18,11 @@ There is also no configuration available to switch the wifi signal on/off based 
 
 The compal-wifi-switch tool can switch the wifi signal on/off via a command line interface. 
 The tool can be installed on any device where Python3 runtime is available (NAS, Raspberry Pi, etc.). 
-To schedule compal-wifi-switch you can use any scheduling mechanism (e.g. cron, Synology task scheduler, ...).  
+To schedule compal-wifi-switch you can use any scheduling mechanism (e.g. cron, Synology task scheduler, ...).
+
+For the use within [Home Assistant](https://www.home-assistant.io/) use the custom component [hass-compal-wifi](https://github.com/frimtec/hass-compal-wifi).
+
+This module is not oefficial, developed, supported or endorsed by Compal.
 
 ## Installation
 ### Using pip
