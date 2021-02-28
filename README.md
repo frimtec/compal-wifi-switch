@@ -8,7 +8,7 @@
 
 A command line tool to switch on/off the wifi signal of a Compal-CH7465LG cablemodem.
 
-![Turn wifi signal off when not in use!](images/wifi-off.png)
+![Turn wifi signal off when not in use!](images/icon.png)
 ![Compal-CH7465LG cablemodem front with UPC design](images/compal_modem-front-upc-design.png)
 ![Compal-CH7465LG cablemodem back](images/compal_modem_back.png)
 
