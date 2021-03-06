@@ -1,2 +1,2 @@
-compal>=0.3.0
+compal>=0.3.1
 lxml~=4.6.2
