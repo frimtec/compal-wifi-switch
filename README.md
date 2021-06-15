@@ -64,7 +64,7 @@ command:
 ### Command switch
 #### Usage
 ```
-usage: compal-wifi-switch switch [-h] [--band {2g,5g,all}] [--guest [GUEST ...]]
+usage: compal-wifi-switch switch [-h] [--band {2g,5g,all}] [--guest]
                       [--pause PAUSE] [--host HOST] [--password PASSWORD]
                       [--verbose]
                       {on,off}
@@ -77,9 +77,7 @@ optional arguments:
   -h, --help            show this help message and exit
   --band {2g,5g,all}, -b {2g,5g,all}
                         band to switch power state for (default = all)
-  --guest [GUEST ...], -g [GUEST ...]
-                        list of guest network mac-addresses to activate while
-                        switching ON wifi
+  --guest, -g           activate guest network while switching ON wifi
   --pause PAUSE, -p PAUSE
                         number of seconds to pause after wifi state change
                         (default = 60); when the pause is too short, the
@@ -129,7 +127,7 @@ To show the status of the wifi signal, use the following command:
 ==============================================================
  Model               : CH7465LG
  HW Version          : 5.01
- SW Version          : CH7465LG-NCIP-6.15.28-4p8-NOSH
+ SW Version          : CH7465LG-NCIP-6.15.30-1p3-1-NOSH
  Serial Number       : ************
  Modem MAC Address   : **:**:**:**:**:**
  Operator ID         : LIBERTYGLOBAL
