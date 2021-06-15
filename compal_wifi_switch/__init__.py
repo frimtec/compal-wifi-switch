@@ -91,20 +91,22 @@ class Commands:
             wifi_status.append(wifi_band)
 
         wifi_guest_network_settings = WifiGuestNetworkSettings(modem).wifi_guest_network_settings
-        guest_network_interfaces = []
-        guest_network_interfaces += wifi_guest_network_settings.guest_networks_2g
-        guest_network_interfaces += wifi_guest_network_settings.guest_networks_5g
-
-        wifi_guest_status = []
-        for interface in guest_network_interfaces:
-            entry = {
-                'radio': interface.radio,
-                'enabled': interface.enable == 1,
-                'mac': interface.guest_mac,
-                'ssid': interface.ssid,
-                'hidden': interface.hidden == 1 == 1
-            }
-            wifi_guest_status.append(entry)
+        wifi_guest_status = [
+            {
+                'radio': '2g',
+                'enabled': wifi_guest_network_settings.enabling_2g.enabled,
+                'mac': wifi_guest_network_settings.enabling_2g.guest_mac,
+                'ssid': wifi_guest_network_settings.properties.ssid,
+                'hidden': wifi_guest_network_settings.properties.hidden == 1
+            },
+            {
+                'radio': '5g',
+                'enabled': wifi_guest_network_settings.enabling_5g.enabled,
+                'mac': wifi_guest_network_settings.enabling_5g.guest_mac,
+                'ssid': wifi_guest_network_settings.properties.ssid,
+                'hidden': wifi_guest_network_settings.properties.hidden == 1
+            },
+        ]
         modem.logout()
 
         return {
@@ -115,29 +117,12 @@ class Commands:
 
     @staticmethod
     def switch(host, password, state, band, guest, pause, verbose=False):
-        guest_networks = guest
-        enable_guest_networks = len(guest_networks) > 0
-        if enable_guest_networks:
+        if guest:
             if state == Switch.OFF:
                 raise ValueError('Argument guest (--guest, -g) not allowed for switch OFF action!')
 
         modem = Compal(host, password)
         modem.login()
-
-        wifi_guest_network = WifiGuestNetworkSettings(modem)
-        guest_settings = wifi_guest_network.wifi_guest_network_settings
-
-        not_found_guest_networks = []
-        guest_network_interfaces_to_enable = []
-        for guest_network in guest_networks:
-            found_interface = Commands.__find_guest_network(guest_settings, band, guest_network)
-            if found_interface is None:
-                not_found_guest_networks.append(guest_network)
-            else:
-                guest_network_interfaces_to_enable.append(found_interface)
-
-        if len(not_found_guest_networks) > 0:
-            raise ValueError(f"Guest network mac-addresses {not_found_guest_networks} not found for selected band {band}!")
 
         wifi = WifiSettings(modem)
         settings = wifi.wifi_settings
@@ -171,21 +156,13 @@ class Commands:
         print(f"Wait {pause}s till wifi state is changed ...")
         time.sleep(pause)
 
-        if enable_guest_networks:
+        if guest:
             modem.login()
             wifi_guest_network = WifiGuestNetworkSettings(modem)
             guest_settings = wifi_guest_network.wifi_guest_network_settings
-
-            indexes_to_enable = set()
-            for index, guest_band in guest_network_interfaces_to_enable:
-                interface = Commands.__guest_settings_for_band(guest_settings, guest_band)[index]
-                print(f"Activating guest networks {interface.guest_mac}")
-                interface.enable = 1
-                indexes_to_enable.add(index)
-
-            for index in indexes_to_enable:
-                wifi_guest_network.update_interface_guest_network_settings(guest_settings, index, verbose)
-
+            wifi_guest_network.update_wifi_guest_network_settings(guest_settings.properties, True)
             modem.logout()
+            print(f"Wait {pause}s till wifi state is changed ...")
+            time.sleep(pause)
 
         print("Finished.")

@@ -83,11 +83,8 @@ def main():
                                choices=list(Band),
                                default="all",
                                help="band to switch power state for (default = all)")
-    switch_parser.add_argument('--guest', '-g',
-                               type=str,
-                               nargs='*',
-                               default=[],
-                               help="list of guest network mac-addresses to activate while switching ON wifi")
+    switch_parser.add_argument('--guest', '-g', action='store_true',
+                               help="activate guest network while switching ON wifi")
     switch_parser.add_argument('--pause', '-p',
                                type=int,
                                default=60,
