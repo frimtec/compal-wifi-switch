@@ -47,7 +47,7 @@ user@dsm:~> python3 ~/compal-wifi-switch-<version>/compal_wifi_switch/main.py --
 
 ### General syntax
 ```
-usage: compal-wifi-switch [-h] [--version] {status,switch} ...
+usage: compal-wifi-switch [-h] [--version] {status,switch,reboot} ...
 
 Compal-Wifi-Switch configuration
 
@@ -58,7 +58,8 @@ optional arguments:
 command:
   {status,switch}
     status         shows the current status of the cablemodem
-    switch         switches the wifi state of the cabelmodem    
+    switch         switches the wifi state of the cabelmodem  
+    reboot         reboots the cabelmodem      
 ```
 
 ### Command switch
@@ -150,6 +151,29 @@ To show the status of the wifi signal, use the following command:
  ON    2g   92:5C:34:DD:6F:0A OFF    FRIMTEC-GUEST
  OFF   5g   92:5C:44:DD:6D:CA OFF    FRIMTEC-GUEST
 
+```
+
+### Command reboot
+#### Usage
+```
+usage: compal-wifi-switch reboot [-h] [--host HOST] [--password PASSWORD] [--verbose]
+
+positional arguments:
+  reboot
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --host HOST          host name or IP of compal cablemodem, or use env
+                       variable COMPAL_WIFI_SWITCH_HOST
+  --password PASSWORD  password of compal cablemodem, or use env variable
+                       COMPAL_WIFI_SWITCH_PASSWORD
+  --verbose            verbose logging
+```
+
+#### Example
+To reboot the cabelmodem, use the following command:
+```
+> compal-wifi-switch reboot --host 192.168.0.1 --password <YOUR_PW>
 ```
 
 ## Credits

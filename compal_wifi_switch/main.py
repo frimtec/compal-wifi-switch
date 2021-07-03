@@ -22,6 +22,7 @@ def status(args):
         print(f" {'Modem MAC Address' :20}: {status_object['modem']['cm_mac_addr']}")
         print(f" {'Operator ID' :20}: {status_object['modem']['operator_id']}")
         print(f" {'Network Mode' :20}: {status_object['modem']['network_mode']}")
+        print(f" {'Status' :20}: {status_object['modem']['status']}")
         print(f" {'Uptime' :20}: {status_object['modem']['uptime']}")
         print()
         print("==============================================================")
@@ -42,10 +43,23 @@ def status(args):
             if interface['ssid'] is not None or args.verbose:
                 print(f" {('ON' if interface['enabled'] else 'OFF'):5} {interface['radio']:4} "
                       f"{interface['mac']} {('ON' if interface['hidden'] else 'OFF'):6} {interface['ssid']}")
+        print()
+        print("==============================================================")
+        print(" TELEPHONE LINES")
+        print("==============================================================")
+        print(" Number Provisioning Hook State")
+        print(" ------ ------------ ---- ---------")
+        for telephone_line in status_object['telephone_line']:
+            print(f" {telephone_line['line_number']:6} {telephone_line['provisioning_state']:12} "
+                  f"{'ON' if telephone_line['on_hook'] else 'OFF' :4} {telephone_line['mta_state']}")
 
 
 def switch(args):
     Commands.switch(args.host, args.password, args.state, args.band, args.guest, args.pause, args.verbose)
+
+
+def reboot(args):
+    Commands.reboot(args.host, args.password)
 
 
 def add_modem_arguments(parser):
@@ -92,6 +106,11 @@ def main():
                                     "when the pause is too short, the following modem commands may block forever")
     add_modem_arguments(switch_parser)
     switch_parser.set_defaults(func=switch)
+
+    reboot_parser = subparsers.add_parser('reboot', help='reboots the cabelmodem')
+    reboot_parser.add_argument('reboot', action='store_true')
+    add_modem_arguments(reboot_parser)
+    reboot_parser.set_defaults(func=reboot)
 
     args = parser.parse_args()
 
