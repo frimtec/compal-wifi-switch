@@ -58,6 +58,15 @@ class Commands:
         return found_entry
 
     @staticmethod
+    def __create_telephone_line(line):
+        return {
+            "line_number": line.find("LineNum").text,
+            "provisioning_state": line.find("ProvSt").text.lower(),
+            "on_hook": line.find("HookSt").text.lower() == "on_hook",
+            "mta_state": line.find("mtastatus").text.lower(),
+        }
+
+    @staticmethod
     def status(host, password):
         modem = Compal(host, password)
         modem.login()
@@ -65,16 +74,19 @@ class Commands:
         parser = etree.XMLParser(recover=True)
         global_settings = etree.fromstring(modem.xml_getter(GetFunction.GLOBALSETTINGS, {}).content, parser=parser)
         system_info = etree.fromstring(modem.xml_getter(GetFunction.CM_SYSTEM_INFO, {}).content, parser=parser)
+        basic_status = etree.fromstring(modem.xml_getter(GetFunction.WIRELESSBASIC_2, {}).content, parser=parser)
+        status_2 = etree.fromstring(modem.xml_getter(GetFunction.STATUS_2, {}).content, parser=parser)
 
         modem_status = {
-            'model': global_settings.find('ConfigVenderModel').text,
-            'hw_version': system_info.find('cm_hardware_version').text,
-            'sw_version': global_settings.find('SwVersion').text,
-            'cm_serial_number': system_info.find('cm_serial_number').text,
-            'cm_mac_addr': system_info.find('cm_mac_addr').text,
-            'operator_id': global_settings.find('OperatorId').text,
-            'network_mode': global_settings.find('GwProvisionMode').text,
-            'uptime': system_info.find('cm_system_uptime').text
+            "model": global_settings.find("ConfigVenderModel").text,
+            "hw_version": system_info.find("cm_hardware_version").text,
+            "sw_version": global_settings.find("SwVersion").text,
+            "cm_serial_number": system_info.find("cm_serial_number").text,
+            "cm_mac_addr": system_info.find("cm_mac_addr").text,
+            "operator_id": global_settings.find("OperatorId").text,
+            "network_mode": global_settings.find("GwProvisionMode").text,
+            "status": basic_status.find("cm_status").text.lower(),
+            "uptime": system_info.find("cm_system_uptime").text
         }
 
         wifi_settings = WifiSettings(modem).wifi_settings
@@ -83,36 +95,43 @@ class Commands:
         wifi_status = []
         for wifi_band in wifi_band_settings:
             wifi_band = {
-                'radio': wifi_band.radio,
-                'enabled': wifi_band.bss_enable == 1,
-                'ssid': wifi_band.ssid,
-                'hidden': wifi_band.hidden == 1
+                "radio": wifi_band.radio,
+                "enabled": wifi_band.bss_enable == 1,
+                "ssid": wifi_band.ssid,
+                "hidden": wifi_band.hidden == 1
             }
             wifi_status.append(wifi_band)
 
         wifi_guest_network_settings = WifiGuestNetworkSettings(modem).wifi_guest_network_settings
         wifi_guest_status = [
             {
-                'radio': '2g',
-                'enabled': wifi_guest_network_settings.enabling_2g.enabled,
-                'mac': wifi_guest_network_settings.enabling_2g.guest_mac,
-                'ssid': wifi_guest_network_settings.properties.ssid,
-                'hidden': wifi_guest_network_settings.properties.hidden == 1
+                "radio": "2g",
+                "enabled": wifi_guest_network_settings.enabling_2g.enabled,
+                "mac": wifi_guest_network_settings.enabling_2g.guest_mac,
+                "ssid": wifi_guest_network_settings.properties.ssid,
+                "hidden": wifi_guest_network_settings.properties.hidden == 1
             },
             {
-                'radio': '5g',
-                'enabled': wifi_guest_network_settings.enabling_5g.enabled,
-                'mac': wifi_guest_network_settings.enabling_5g.guest_mac,
-                'ssid': wifi_guest_network_settings.properties.ssid,
-                'hidden': wifi_guest_network_settings.properties.hidden == 1
+                "radio": "5g",
+                "enabled": wifi_guest_network_settings.enabling_5g.enabled,
+                "mac": wifi_guest_network_settings.enabling_5g.guest_mac,
+                "ssid": wifi_guest_network_settings.properties.ssid,
+                "hidden": wifi_guest_network_settings.properties.hidden == 1
             },
+        ]
+
+        telephone_lines = list(status_2.iter("Line"))
+        telephone_line = [
+            Commands.__create_telephone_line(telephone_lines[0]),
+            Commands.__create_telephone_line(telephone_lines[1]),
         ]
         modem.logout()
 
         return {
-            'modem': modem_status,
-            'wifi': wifi_status,
-            'wifi_guest': wifi_guest_status
+            "modem": modem_status,
+            "wifi": wifi_status,
+            "wifi_guest": wifi_guest_status,
+            "telephone_line": telephone_line,
         }
 
     @staticmethod
@@ -166,3 +185,10 @@ class Commands:
             time.sleep(pause)
 
         print("Finished.")
+
+    @staticmethod
+    def reboot(host, password):
+        modem = Compal(host, password)
+        modem.login()
+        modem.reboot()
+
