@@ -22,7 +22,7 @@ To schedule compal-wifi-switch you can use any scheduling mechanism (e.g. cron, 
 
 For the use within [Home Assistant](https://www.home-assistant.io/) use the custom component [hass-compal-wifi](https://github.com/frimtec/hass-compal-wifi).
 
-This module is not oefficial, developed, supported or endorsed by Compal.
+This module is not official developed, supported or endorsed by Compal.
 
 ## Installation
 ### Using pip
