@@ -92,10 +92,11 @@ optional arguments:
 #### Example
 To enable the wifi signal for the 2GHz band including the activation of the guest network, use the following command:
 ```
-> compal-wifi-switch switch on --host 192.168.0.1 --password <YOUR_PW> --band 2g --guest 92:5C:34:DD:6F:0A
+> compal-wifi-switch switch on --host 192.168.0.1 --password <YOUR_PW> --band 2g --guest
 
 Switching wifi ON (band = 2g)
-Activating guest networks 92:5C:34:DD:6F:0A
+Wait 60s till wifi state is changed ...
+Finished.
 ```
 
 ### Command status
@@ -177,4 +178,4 @@ To reboot the cabelmodem, use the following command:
 ```
 
 ## Credits
-* Using [compal_CH7465LG_py](https://github.com/ties/compal_CH7465LG_py) by [ties](https://github.com/ties/) to communicate with Compal cable modem.
+* Using [compal_CH7465LG_py](https://github.com/ties/compal_CH7465LG_py) by [ties](https://github.com/ties/) to communicate with Compal cablemodem.
