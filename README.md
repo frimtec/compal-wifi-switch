@@ -129,7 +129,7 @@ To show the status of the wifi signal, use the following command:
 ==============================================================
  Model               : CH7465LG
  HW Version          : 5.01
- SW Version          : CH7465LG-NCIP-6.15.30-1p3-1-NOSH
+ SW Version          : CH7465LG-NCIP-6.15.31p1-NOSH
  Serial Number       : ************
  Modem MAC Address   : **:**:**:**:**:**
  Operator ID         : LIBERTYGLOBAL
