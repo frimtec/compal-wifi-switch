@@ -24,7 +24,7 @@ jobs:
         sed -i 's/$version/${{ steps.get_version.outputs.VERSION }}/g' setup.py
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.9'
 
