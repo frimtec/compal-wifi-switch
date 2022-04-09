@@ -1,10 +1,12 @@
 # Compal-Wifi-Switch
-[![PyPI](https://img.shields.io/pypi/v/compal-wifi-switch.svg)](https://pypi.org/project/compal-wifi-switch/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/compal-wifi-switch.svg)](https://pypi.org/project/compal-wifi-switch/)
-[![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![PyPI][pypi-shield]][pypi]
+[![PyPI - Python Version][pypi-python-version-shield]][pypi]
 
-[![Build](https://github.com/frimtec/compal-wifi-switch/workflows/Build/badge.svg)](https://github.com/frimtec/compal-wifi-switch/actions?query=workflow%3ABuild)
-[![Deploy release](https://github.com/frimtec/compal-wifi-switch/workflows/Deploy%20release/badge.svg)](https://github.com/frimtec/compal-wifi-switch/actions?query=workflow%3A%22Deploy+release%22)
+![Project Maintenance][maintenance-shield]
+[![License][license-shield]][license]
+
+[![Build Status][build-status-shield]][build-status]
+[![Deploy Status][deploy-status-shield]][deploy-status]
 
 A command line tool to switch on/off the wifi signal of a Compal-CH7465LG cablemodem.
 
@@ -20,7 +22,7 @@ The compal-wifi-switch tool can switch the wifi signal on/off via a command line
 The tool can be installed on any device where Python3 runtime is available (NAS, Raspberry Pi, etc.). 
 To schedule compal-wifi-switch you can use any scheduling mechanism (e.g. cron, Synology task scheduler, ...).
 
-For the use within [Home Assistant](https://www.home-assistant.io/) use the custom component [hass-compal-wifi](https://github.com/frimtec/hass-compal-wifi).
+For the use within [Home Assistant][home-assistant] use the custom component [hass-compal-wifi][hass-compal-wifi].
 
 This module is not official developed, supported or endorsed by Compal.
 
@@ -31,7 +33,7 @@ This module is not official developed, supported or endorsed by Compal.
 1. Run compal-wifi-switch with ```compal-wifi-switch --help```.
 
 ### Without pip (e.g. on Synology DSM)
-1. Download package from [PyPi](https://pypi.org/project/compal-wifi-switch/#files) (tar.gz) to your server.
+1. Download package from [PyPi][pypi-files] (tar.gz) to your server.
 1. Run the following commands:
 ```
 # Install
@@ -178,4 +180,21 @@ To reboot the cabelmodem, use the following command:
 ```
 
 ## Credits
-* Using [compal_CH7465LG_py](https://github.com/ties/compal_CH7465LG_py) by [ties](https://github.com/ties/) to communicate with Compal cablemodem.
+* Using [compal_CH7465LG_py][compal-CH7465LG-py] by [ties][github-ties] to communicate with Compal cablemodem.
+
+
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2022.svg
+[license-shield]: https://img.shields.io/github/license/frimtec/compal-wifi-switch.svg
+[license]: https://opensource.org/licenses/Apache-2.0
+[pypi-shield]: https://img.shields.io/pypi/v/compal-wifi-switch.svg 
+[pypi-python-version-shield]: https://img.shields.io/pypi/pyversions/compal-wifi-switch.svg 
+[pypi]: https://pypi.org/project/compal-wifi-switch/
+[pypi-files]: https://pypi.org/project/compal-wifi-switch/#files
+[build-status-shield]: https://github.com/frimtec/compal-wifi-switch/workflows/Build/badge.svg
+[build-status]: https://github.com/frimtec/compal-wifi-switch/actions?query=workflow%3ABuild
+[deploy-status-shield]: https://github.com/frimtec/compal-wifi-switch/workflows/Deploy%20release/badge.svg
+[deploy-status]: https://github.com/frimtec/compal-wifi-switch/actions?query=workflow%3A%22Deploy+release%22
+[home-assistant]: https://www.home-assistant.io/
+[hass-compal-wifi]: https://github.com/frimtec/hass-compal-wifi
+[compal-CH7465LG-py]: https://github.com/ties/compal_CH7465LG_py
+[github-ties]: https://github.com/ties/
