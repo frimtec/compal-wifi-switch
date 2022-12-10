@@ -7,6 +7,14 @@
 
 [![Build Status][build-status-shield]][build-status]
 [![Deploy Status][deploy-status-shield]][deploy-status]
+---
+**_Contributions Only:_**
+_I no longer have a Compal modem and can therefore not actively work on this project anymore. 
+So all future development will be from pull requests submitted by the community.  
+What I will do:_
+* _review pull requests_
+* _publish new releases upon request_
+---
 
 A command line tool to switch on/off the wifi signal of a Compal-CH7465LG cablemodem.
 
@@ -183,7 +191,7 @@ To reboot the cabelmodem, use the following command:
 * Using [compal_CH7465LG_py][compal-CH7465LG-py] by [ties][github-ties] to communicate with Compal cablemodem.
 
 
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2022.svg
+[maintenance-shield]: https://img.shields.io/maintenance/no/2023.svg
 [license-shield]: https://img.shields.io/github/license/frimtec/compal-wifi-switch.svg
 [license]: https://opensource.org/licenses/Apache-2.0
 [pypi-shield]: https://img.shields.io/pypi/v/compal-wifi-switch.svg 
