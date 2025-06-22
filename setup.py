@@ -11,7 +11,7 @@ with open(os.path.join(here, "README.md"), "rb") as f:
 
 version = '0.0.0' if '$version'.startswith('$') else '$version'
 setup(
-    name="compal-wifi-switch",
+    name="compal_wifi_switch",
     version=version,
     author="Markus Friedli",
     author_email="frimtec@gmx.ch",
@@ -32,8 +32,6 @@ setup(
     keywords="compal CH7465LG connect box cablemodem wifi switch",
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent"
-    ],
-    zip_safe=True
+    ]
 )
